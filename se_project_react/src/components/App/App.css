@@ -1,12 +1,7 @@
 .page {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  text-align: center;
 }
 
 .page__content {
   max-width: 1360px;
-  margin: 0 auto;
 }
