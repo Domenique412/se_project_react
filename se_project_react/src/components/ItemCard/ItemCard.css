@@ -1,0 +1,18 @@
+.card {
+  max-width: 323px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.card__image {
+  max-width: 100%;
+  height: auto;
+}
+
+.card__name {
+  position: absolute;
+  top: 15px;
+  margin: 0;
+}
