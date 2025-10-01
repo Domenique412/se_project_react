@@ -112,3 +112,88 @@ export const defaultClothingItems = [
             "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09",
     },
 ];
+
+export const weatherOptions = [
+
+
+    {
+        condition: "clear",
+        day: true,
+        url: new URL("../images/day/day_clear.svg", import.meta.url).href,
+    },
+    {
+        condition: "cloudy",
+        day: true,
+        url: new URL("../images/day/day_cloudy.svg", import.meta.url).href,
+    },
+    {
+        condition: "fog",
+        day: true,
+        url: new URL("../images/day/day_fog.svg", import.meta.url).href,
+    },
+    {
+        condition: "storm",
+        day: true,
+        url: new URL("../images/day/day_storm.svg", import.meta.url).href,
+    },
+    {
+        condition: "snow",
+        day: true,
+        url: new URL("../images/day/snow_clear.svg", import.meta.url).href,
+    },
+    {
+        condition: "rain",
+        day: true,
+        url: new URL("../images/day/day_rain.svg", import.meta.url).href,
+    },
+    {
+        condition: "clear",
+        day: false,
+        url: new URL("../images/night/night_clear.svg", import.meta.url).href,
+    },
+    {
+        condition: "cloudy",
+        day: false,
+        url: new URL("../images/night/night_cloudy.svg", import.meta.url).href,
+    },
+    {
+        condition: "fog",
+        day: false,
+        url: new URL("../images/night/night_fog.svg", import.meta.url).href,
+    },
+    {
+        condition: "storm",
+        day: false,
+        url: new URL("../images/night/night_storm.svg", import.meta.url).href,
+    },
+    {
+        condition: "snow",
+        day: false,
+        url: new URL("../images/night/night_snow.svg", import.meta.url).href,
+    },
+    {
+        condition: "rain",
+        day: false,
+        url: new URL("../images/night/night_rain.svg", import.meta.url).href,
+    },
+];
+
+
+export const defaultWeatherOptions = {
+
+    day: {
+        url: new URL("../images/day/day_default.svg", import.meta.url).href
+    },
+
+    night: {
+        url: new URL("../images/night/night_default.svg", import.meta.url).href
+    },
+
+};
+
+export const coordinates = {
+    longitude: -79.866440,
+    latitude: 40.363403,
+};
+
+export const APIkey = "ed99e0c03ca064ec30f5aa67cbd85a10";
