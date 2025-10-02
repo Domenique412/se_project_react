@@ -5,6 +5,7 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import ItemModal from "../ItemModal/ItemModal";
+import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, APIkey } from "../../utils/constants";
 
@@ -16,8 +17,32 @@ function App() {
   });
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
+  const [selectedWeather, setSelectedWeather] = useState("");
+  const [formData, setFormData] = useState({ name: "", imageURL: "" });
+
+  const isFormValid = () => {
+    return (
+      formData.name.trim().length >= 2 &&
+      formData.name.trim().length <= 40 &&
+      formData.imageURL.trim().length > 0 &&
+      selectedWeather !== ""
+    );
+  };
+
+  const closeModal = () => {
+    setActiveModal("");
+    setFormData({
+      name: "",
+      imageURL: "",
+    });
+  };
+
   const handleAddClick = () => {
     setActiveModal("add-garment");
+  };
+
+  const handleRadioClick = (value) => {
+    setSelectedWeather(selectedWeather === value ? "" : value);
   };
 
   const handleCardClick = (card) => {
@@ -25,14 +50,12 @@ function App() {
     setSelectedCard(card);
   };
 
-  const closeModal = () => {
-    setActiveModal("");
-  };
-
-  const [selectedWeather, setSelectedWeather] = useState("");
-
-  const handleRadioClick = (value) => {
-    setSelectedWeather(selectedWeather === value ? "" : value);
+  const handleInputChange = (evt) => {
+    const { name, value } = evt.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   useEffect(() => {
@@ -55,6 +78,7 @@ function App() {
         buttonText="Add garment"
         activeModal={activeModal}
         onClose={closeModal}
+        isDisabled={!isFormValid()}
       >
         <label htmlFor="name" className="modal__label">
           Name{" "}
@@ -62,7 +86,13 @@ function App() {
             type="text"
             className="modal__input"
             id="name"
+            name="name"
             placeholder="Name"
+            value={formData.name}
+            minLength={2}
+            maxLength={40}
+            onChange={handleInputChange}
+            required
           />
         </label>
         <label htmlFor="imageURL" className="modal__label">
@@ -71,11 +101,17 @@ function App() {
             type="URL"
             className="modal__input"
             id="imageURL"
+            name="imageURL"
             placeholder="Image URL"
+            value={formData.imageURL}
+            onChange={handleInputChange}
+            required
           />
         </label>
+
+        <legend className="modal__legend">Select the weather type</legend>
+
         <fieldset className="modal__radio-btns">
-          <legend className="modal__legend">Select the weather type</legend>
           <label htmlFor="hot" className="modal__label modal__label_type_radio">
             <input
               id="hot"
@@ -83,7 +119,8 @@ function App() {
               name="weather"
               value="hot"
               checked={selectedWeather === "hot"}
-              onClick={() => handleRadioClick("hot")}
+              onChange={() => handleRadioClick("hot")}
+              required
               className="modal__radio-input"
             />
             Hot
@@ -92,14 +129,32 @@ function App() {
             htmlFor="warm"
             className="modal__label modal__label_type_radio"
           >
-            <input id="warm" type="radio" className="modal__radio-input" />
+            <input
+              id="warm"
+              type="radio"
+              name="weather"
+              value="warm"
+              checked={selectedWeather === "warm"}
+              onChange={() => handleRadioClick("warm")}
+              required
+              className="modal__radio-input"
+            />
             Warm
           </label>
           <label
             htmlFor="cold"
             className="modal__label modal__label_type_radio"
           >
-            <input id="cold" type="radio" className="modal__radio-input" />
+            <input
+              id="cold"
+              type="radio"
+              name="weather"
+              value="cold"
+              checked={selectedWeather === "cold"}
+              onChange={() => handleRadioClick("cold")}
+              required
+              className="modal__radio-input"
+            />
             Cold
           </label>
         </fieldset>
@@ -109,6 +164,7 @@ function App() {
         card={selectedCard}
         onClose={closeModal}
       />
+      <Footer />
     </div>
   );
 }

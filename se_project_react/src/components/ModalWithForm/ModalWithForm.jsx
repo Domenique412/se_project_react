@@ -2,7 +2,14 @@ import { Children } from "react";
 import "./ModalWithForm.css";
 import closeModalIcon from "../../images/gray_close_btn.svg";
 
-function ModalWithForm({ children, buttonText, title, activeModal, onClose }) {
+function ModalWithForm({
+  children,
+  buttonText,
+  title,
+  activeModal,
+  onClose,
+  isDisabled,
+}) {
   return (
     <div
       className={`modal ${activeModal === "add-garment" ? "modal__open" : ""}`}
@@ -14,7 +21,7 @@ function ModalWithForm({ children, buttonText, title, activeModal, onClose }) {
         </button>
         <form className="modal__form">
           {children}
-          <button type="submit" className="modal__submit">
+          <button className="modal__submit" type="submit" disabled={isDisabled}>
             {buttonText}
           </button>
         </form>
