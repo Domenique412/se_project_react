@@ -27,7 +27,6 @@
   max-width: 496px;
   width: 100%;
   border-radius: 20px;
-  border: 1px;
   box-sizing: border-box;
   font-family: "Cabinet Grotesk Medium", Arial, Helvetica, sans-serif;
   font-weight: 500;
@@ -65,7 +64,7 @@
   border: none;
   border-bottom: 1px solid #000000;
   max-width: 440px;
-  height: 24;
+  height: 24px;
   width: 100%;
   font-family: "Cabinet Grotesk Medium", Arial, Helvetica, sans-serif;
   font-weight: 500;

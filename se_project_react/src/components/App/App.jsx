@@ -8,6 +8,7 @@ import ItemModal from "../ItemModal/ItemModal";
 import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, APIkey } from "../../utils/constants";
+import { defaultClothingItems } from "../../utils/constants";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -30,6 +31,7 @@ function App() {
   };
 
   const closeModal = () => {
+    setSelectedWeather("");
     setActiveModal("");
     setFormData({
       name: "",
@@ -71,7 +73,11 @@ function App() {
     <div className="page">
       <div className="page__content">
         <Header handleAddClick={handleAddClick} weatherData={weatherData} />
-        <Main weatherData={weatherData} handleCardClick={handleCardClick} />
+        <Main
+          weatherData={weatherData}
+          handleCardClick={handleCardClick}
+          clothingItems={defaultClothingItems}
+        />
       </div>
       <ModalWithForm
         title="New garment"
