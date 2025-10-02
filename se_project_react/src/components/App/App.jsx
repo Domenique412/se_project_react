@@ -52,7 +52,7 @@ function App() {
 
   const handleInputChange = (evt) => {
     const { name, value } = evt.target;
-    setData((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
