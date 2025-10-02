@@ -46,7 +46,7 @@ function App() {
       </div>
       <ModalWithForm
         title="New garment"
-        buttonText="Add Garment"
+        buttonText="Add garment"
         activeModal={activeModal}
         onClose={closeModal}
       >
@@ -56,11 +56,11 @@ function App() {
             type="text"
             className="modal__input"
             id="name"
-            placeholder="NAME"
+            placeholder="Name"
           />
         </label>
         <label htmlFor="imageURL" className="modal__label">
-          Name{" "}
+          Image{" "}
           <input
             type="URL"
             className="modal__input"

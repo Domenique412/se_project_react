@@ -7,14 +7,15 @@
 }
 
 .weather-card__temp {
-  font-size: 36px;
-  line-height: 40px;
   position: absolute;
   margin: 0;
   top: 20px;
   left: 16px;
-  font-weight: 700;
+  font-family: "Cabinet Grotesk Medium", Arial, Helvetica, sans-serif;
+  font-weight: 500;
   letter-spacing: 0;
+  font-size: 36px;
+  line-height: 40px;
   vertical-align: middle;
   color: #fff;
 }
