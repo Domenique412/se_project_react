@@ -107,6 +107,12 @@
   color: #fff;
   margin: 0;
   background-color: #000000;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal__submit:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 .modal__label_type_radio {
@@ -125,4 +131,5 @@
   width: 16px;
   height: 16px;
   margin: 0;
+  accent-color: #000000;
 }

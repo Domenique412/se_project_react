@@ -29,6 +29,12 @@ function App() {
     setActiveModal("");
   };
 
+  const [selectedWeather, setSelectedWeather] = useState("");
+
+  const handleRadioClick = (value) => {
+    setSelectedWeather(selectedWeather === value ? "" : value);
+  };
+
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
@@ -71,7 +77,15 @@ function App() {
         <fieldset className="modal__radio-btns">
           <legend className="modal__legend">Select the weather type</legend>
           <label htmlFor="hot" className="modal__label modal__label_type_radio">
-            <input id="hot" type="radio" className="modal__radio-input" />
+            <input
+              id="hot"
+              type="radio"
+              name="weather"
+              value="hot"
+              checked={selectedWeather === "hot"}
+              onClick={() => handleRadioClick("hot")}
+              className="modal__radio-input"
+            />
             Hot
           </label>
           <label
