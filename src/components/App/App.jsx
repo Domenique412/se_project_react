@@ -39,6 +39,22 @@ function App() {
     });
   };
 
+  useEffect(() => {
+    if (!activeModal) return;
+
+    const handleEscClose = (e) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscClose);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [activeModal]);
+
   const handleAddClick = () => {
     setActiveModal("add-garment");
   };
@@ -85,6 +101,7 @@ function App() {
         activeModal={activeModal}
         onClose={closeModal}
         isDisabled={!isFormValid()}
+        isOpen={activeModal === "add-garment"}
       >
         <label htmlFor="name" className="modal__label">
           Name{" "}
