@@ -106,7 +106,7 @@ export const weatherOptions = [
   {
     condition: "clouds",
     day: true,
-    url: new URL("../images/day/day_cloudy.svg", import.meta.url).href,
+    url: new URL("../images/day/day_clouds.svg", import.meta.url).href,
   },
   {
     condition: "fog",
