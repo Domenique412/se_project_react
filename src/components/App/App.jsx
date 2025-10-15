@@ -21,26 +21,11 @@ function App() {
   });
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
-  const [selectedWeather, setSelectedWeather] = useState("");
-  const [formData, setFormData] = useState({ name: "", imageURL: "" });
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-
-  const isFormValid = () => {
-    return (
-      formData.name.trim().length >= 2 &&
-      formData.name.trim().length <= 40 &&
-      formData.imageURL.trim().length > 0 &&
-      selectedWeather !== ""
-    );
-  };
+  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
 
   const closeModal = () => {
-    setSelectedWeather("");
     setActiveModal("");
-    setFormData({
-      name: "",
-      imageURL: "",
-    });
   };
 
   useEffect(() => {
@@ -67,21 +52,20 @@ function App() {
     setActiveModal("add-garment");
   };
 
-  const handleRadioClick = (value) => {
-    setSelectedWeather(selectedWeather === value ? "" : value);
+  const onAddItem = (inputValues) => {
+    const newCardData = {
+      _id: Date.now(),
+      name: inputValues.name,
+      link: inputValues.imageURL,
+      weather: inputValues.weatherType,
+    };
+    setClothingItems([...clothingItems, newCardData]);
+    closeModal();
   };
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
     setSelectedCard(card);
-  };
-
-  const handleInputChange = (evt) => {
-    const { name, value } = evt.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   useEffect(() => {
@@ -103,14 +87,14 @@ function App() {
           <Main
             weatherData={weatherData}
             handleCardClick={handleCardClick}
-            clothingItems={defaultClothingItems}
+            clothingItems={clothingItems}
           />
         </div>
         <AddItemModal
           activeModal={activeModal}
           onClose={closeModal}
-          isDisabled={!isFormValid()}
           isOpen={activeModal === "add-garment"}
+          onAddItem={onAddItem}
         />
 
         <ItemModal
