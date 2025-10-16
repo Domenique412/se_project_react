@@ -11,8 +11,10 @@ import Footer from "../Footer/Footer";
 import Profile from "../Profile/Profile";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, APIkey } from "../../utils/constants";
-import { defaultClothingItems } from "../../utils/constants";
+// import { defaultClothingItems } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import { getItems } from "../../utils/api";
+import { addItem } from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -25,7 +27,7 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
+  const [clothingItems, setClothingItems] = useState([]);
 
   const closeModal = () => {
     setActiveModal("");
@@ -62,8 +64,13 @@ function App() {
       link: inputValues.imageURL,
       weather: inputValues.weatherType,
     };
-    setClothingItems([...clothingItems, newCardData]);
-    closeModal();
+
+    addItem(newCardData)
+      .then((data) => {
+        setClothingItems([data, ...clothingItems]);
+        closeModal();
+      })
+      .catch(console.error);
   };
 
   const handleCardClick = (card) => {
@@ -76,6 +83,12 @@ function App() {
       .then((data) => {
         const filteredData = filterWeatherData(data);
         setWeatherData(filteredData);
+      })
+      .catch(console.error);
+    getItems()
+      .then((data) => {
+        // reverse array
+        setClothingItems(data);
       })
       .catch(console.error);
   }, []);
