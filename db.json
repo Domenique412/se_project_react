@@ -101,12 +101,6 @@
       "name": "T-Shirt",
       "weather": "hot",
       "link": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/T-Shirt.png?etag=44ed1963c44ab19cd2f5011522c5fc09"
-    },
-    {
-      "name": "pants",
-      "link": "https://as2.ftcdn.net/v2/jpg/01/69/27/39/1000_F_169273924_TF9xaJHZlBq33m6rMhnC00tfDRNYf2sz.jpg",
-      "weather": "cold",
-      "_id": 17
     }
   ]
 }

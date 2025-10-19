@@ -11,10 +11,10 @@ import Footer from "../Footer/Footer";
 import Profile from "../Profile/Profile";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, APIkey } from "../../utils/constants";
-// import { defaultClothingItems } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { getItems } from "../../utils/api";
 import { addItem } from "../../utils/api";
+import { removeItem } from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -78,6 +78,17 @@ function App() {
     setSelectedCard(card);
   };
 
+  const handleCardDelete = () => {
+    removeItem(selectedCard._id)
+      .then(() => {
+        setClothingItems(
+          clothingItems.filter((item) => item._id !== selectedCard._id)
+        );
+        closeModal();
+      })
+      .catch(console.error);
+  };
+
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
@@ -87,7 +98,6 @@ function App() {
       .catch(console.error);
     getItems()
       .then((data) => {
-        // reverse array
         setClothingItems(data);
       })
       .catch(console.error);
@@ -118,6 +128,7 @@ function App() {
                   clothingItems={clothingItems}
                   weatherData={weatherData}
                   handleCardClick={handleCardClick}
+                  handleAddClick={handleAddClick}
                 />
               }
             />
@@ -134,6 +145,7 @@ function App() {
           activeModal={activeModal}
           card={selectedCard}
           onClose={closeModal}
+          handleCardDelete={handleCardDelete}
         />
         <Footer />
       </div>
