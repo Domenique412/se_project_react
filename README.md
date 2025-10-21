@@ -1,8 +1,8 @@
-# Project: React
+# Project: What to Wear React
 
 ## Description
 
-The purpose of this project was to create something that uses a lot of JSX and incorporates APIs and other techs
+The purpose of this project was to create an app that incorporated APIs and used the local weather to determine what to wear. Also, the app allows you to toggle between Celsius and Fahrenheit, and you can add your own garments and store them on the server for later use as well.
 
 ## Tech Stack
 
@@ -11,3 +11,8 @@ The purpose of this project was to create something that uses a lot of JSX and i
 -JavaScript
 -React
 -Vite
+
+## Screenshots
+
+![Header Screenshot](src/images/ReadmeScreenShots/HeaderScreenshot.png)
+![Add Garment Screenshot](src/images/ReadmeScreenShots/AddGarment.png)
