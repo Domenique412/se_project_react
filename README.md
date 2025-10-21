@@ -16,3 +16,8 @@ The purpose of this project was to create an app that incorporated APIs and used
 
 ![Header Screenshot](src/images/ReadmeScreenShots/HeaderScreenshot.png)
 ![Add Garment Screenshot](src/images/ReadmeScreenShots/AddGarment.png)
+
+## Project Pitch Video
+
+Check out [this video](https://drive.google.com/file/d/1KiaSPs9z9Pu2TC1DbZe6wy2H52WAaf1u/view?usp=drive_link), where I describe my
+project and some challenges I faced while building it.
