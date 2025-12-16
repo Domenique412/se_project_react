@@ -4,7 +4,12 @@ import headerLogo from "../../images/wtwr_header_logo.svg";
 import headerAvatar from "../../images/avatar_logo.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
-function Header({ handleAddClick, weatherData }) {
+function Header({
+  handleAddClick,
+  weatherData,
+  onLoginClick,
+  onRegisterClick,
+}) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -26,6 +31,21 @@ function Header({ handleAddClick, weatherData }) {
           className="header__add-clothes-btn"
         >
           + Add Clothes
+        </button>
+
+        <button
+          type="button"
+          className="header__auth-btn"
+          onClick={onLoginClick}
+        >
+          Log in
+        </button>
+        <button
+          type="button"
+          className="header__auth-btn"
+          onClick={onRegisterClick}
+        >
+          Sign up
         </button>
         <NavLink className="header__nav-link" to="/profile">
           <div className="header__user-container">

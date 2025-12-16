@@ -9,6 +9,8 @@ import AddItemModal from "../AddItemModal/AddItemModel";
 import ItemModal from "../ItemModal/ItemModal";
 import Footer from "../Footer/Footer";
 import Profile from "../Profile/Profile";
+import LoginModal from "../LoginModal/LoginModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, apiKey } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
@@ -87,6 +89,26 @@ function App() {
       .catch(console.error);
   };
 
+  const handleLogin = (credentials) => {
+    console.log("Login with:", credentials);
+
+    closeModal();
+  };
+
+  const handleRegister = (userData) => {
+    console.log("Register with:", userData);
+
+    closeModal();
+  };
+
+  const handleLoginClick = () => {
+    setActiveModal("login");
+  };
+
+  const handleRegisterClick = () => {
+    setActiveModal("register");
+  };
+
   useEffect(() => {
     getWeather(coordinates, apiKey)
       .then((data) => {
@@ -107,7 +129,12 @@ function App() {
     >
       <div className="page">
         <div className="page__content">
-          <Header handleAddClick={handleAddClick} weatherData={weatherData} />
+          <Header
+            handleAddClick={handleAddClick}
+            weatherData={weatherData}
+            onLoginClick={handleLoginClick}
+            onRegisterClick={handleRegisterClick}
+          />
           <Routes>
             <Route
               path="/"
@@ -145,6 +172,17 @@ function App() {
           onClose={closeModal}
           handleCardDelete={handleCardDelete}
         />
+        <LoginModal
+          isOpen={activeModal === "login"}
+          onClose={closeModal}
+          onLogin={handleLogin}
+        />
+        <RegisterModal
+          isOpen={activeModal === "register"}
+          onClose={closeModal}
+          onLogin={handleRegister}
+        />
+
         <Footer />
       </div>
     </CurrentTemperatureUnitContext.Provider>
