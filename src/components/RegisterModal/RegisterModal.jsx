@@ -19,15 +19,33 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
   }, [isOpen]);
 
   const isFormValid = () => {
+    const nameOk =
+      values.name.trim().length >= 2 && values.name.trim().length <= 30;
+    const avatarOk = values.avatar.trim().length > 0;
     const emailOk = values.email.trim().length > 0;
     const passwordOk = values.password.trim().length >= 6;
     const confirmOk = values.confirmPassword === values.password;
-    return emailOk && passwordOk && confirmOk;
+
+    console.log("Validation check:", {
+      nameOk,
+      avatarOk,
+      emailOk,
+      passwordOk,
+      confirmOk,
+      values,
+    });
+
+    return nameOk && avatarOk && emailOk && passwordOk && confirmOk;
   };
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onRegister({ email: values.email, password: values.password });
+    onRegister({
+      email: values.email,
+      password: values.password,
+      name: values.name,
+      avatar: values.avatar,
+    });
   }
 
   return (
@@ -39,6 +57,34 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
       isDisabled={!isFormValid()}
       onSubmit={handleSubmit}
     >
+      <label htmlFor="name" className="modal__label">
+        Name
+        <input
+          type="text"
+          className="modal__input"
+          id="name"
+          name="name"
+          placeholder="Name"
+          value={values.name}
+          onChange={handleChange}
+          minLength={2}
+          maxLength={30}
+          required
+        />
+      </label>
+      <label htmlFor="avatar" className="modal__label">
+        Avatar URL
+        <input
+          type="url"
+          className="modal__input"
+          id="avatar"
+          name="avatar"
+          placeholder="Avatar URL"
+          value={values.avatar}
+          onChange={handleChange}
+          required
+        />
+      </label>
       <label htmlFor="email" className="modal__label">
         Email{" "}
         <input

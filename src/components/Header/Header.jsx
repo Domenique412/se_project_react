@@ -9,6 +9,8 @@ function Header({
   weatherData,
   onLoginClick,
   onRegisterClick,
+  onLogout,
+  isLoggedIn,
 }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -33,30 +35,44 @@ function Header({
           + Add Clothes
         </button>
 
-        <button
-          type="button"
-          className="header__auth-btn"
-          onClick={onLoginClick}
-        >
-          Log in
-        </button>
-        <button
-          type="button"
-          className="header__auth-btn"
-          onClick={onRegisterClick}
-        >
-          Sign up
-        </button>
-        <NavLink className="header__nav-link" to="/profile">
-          <div className="header__user-container">
-            <p className="header__username">Terrence Tegegne</p>
-            <img
-              className="header__user-avatar"
-              src={headerAvatar}
-              alt="Terrence Tegegne"
-            />
-          </div>
-        </NavLink>
+        {isLoggedIn ? (
+          <>
+            <NavLink className="header__nav-link" to="/profile">
+              <div className="header__user-container">
+                <p className="header__username">Terrence Tegegne</p>
+                <img
+                  className="header__user-avatar"
+                  src={headerAvatar}
+                  alt="Terrence Tegegne"
+                />
+              </div>
+            </NavLink>
+            <button
+              type="button"
+              className="header__auth-btn"
+              onClick={onLogout}
+            >
+              Log out
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="header__auth-btn"
+              onClick={onLoginClick}
+            >
+              Log in
+            </button>
+            <button
+              type="button"
+              className="header__auth-btn"
+              onClick={onRegisterClick}
+            >
+              Sign up
+            </button>
+          </>
+        )}
       </div>
     </header>
   );

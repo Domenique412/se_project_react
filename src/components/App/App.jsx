@@ -130,6 +130,11 @@ function App() {
     setActiveModal("register");
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    closeModal();
+  };
+
   useEffect(() => {
     getWeather(coordinates, apiKey)
       .then((data) => {
@@ -155,6 +160,8 @@ function App() {
             weatherData={weatherData}
             onLoginClick={handleLoginClick}
             onRegisterClick={handleRegisterClick}
+            onLogout={handleLogout}
+            isLoggedIn={isLoggedIn}
           />
           <Routes>
             <Route
@@ -194,6 +201,7 @@ function App() {
           card={selectedCard}
           onClose={closeModal}
           handleCardDelete={handleCardDelete}
+          isLoggedIn={isLoggedIn}
         />
         <LoginModal
           isOpen={activeModal === "login"}
@@ -203,7 +211,7 @@ function App() {
         <RegisterModal
           isOpen={activeModal === "register"}
           onClose={closeModal}
-          onLogin={handleRegister}
+          onRegister={handleRegister}
         />
 
         <Footer />
