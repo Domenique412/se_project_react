@@ -39,7 +39,7 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
           placeholder="Email"
           value={values.email}
           onChange={handleChange}
-          reuired
+          required
         />
       </label>
       <label htmlFor="password" className="modal__label">

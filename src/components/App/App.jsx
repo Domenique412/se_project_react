@@ -11,10 +11,12 @@ import Footer from "../Footer/Footer";
 import Profile from "../Profile/Profile";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, apiKey } from "../../utils/constants";
-import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { getItems, addItem, removeItem } from "../../utils/api";
+import { signin, signup } from "../../utils/auth";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -28,6 +30,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const closeModal = () => {
     setActiveModal("");
@@ -53,11 +56,21 @@ function App() {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
   };
 
+  const requireAuth = () => {
+    if (!isLoggedIn) {
+      setActiveModal("login");
+      return false;
+    }
+    return true;
+  };
+
   const handleAddClick = () => {
+    if (!requireAuth()) return;
     setActiveModal("add-garment");
   };
 
   const onAddItem = (inputValues) => {
+    if (!requireAuth()) return;
     const newCardData = {
       _id: Date.now(),
       name: inputValues.name,
@@ -79,6 +92,8 @@ function App() {
   };
 
   const handleCardDelete = () => {
+    if (!requireAuth()) return;
+
     removeItem(selectedCard._id)
       .then(() => {
         setClothingItems(
@@ -90,15 +105,21 @@ function App() {
   };
 
   const handleLogin = (credentials) => {
-    console.log("Login with:", credentials);
-
-    closeModal();
+    signin(credentials)
+      .then(() => {
+        setIsLoggedIn(true);
+        closeModal();
+      })
+      .catch(console.error);
   };
 
   const handleRegister = (userData) => {
-    console.log("Register with:", userData);
-
-    closeModal();
+    signup(userData)
+      .then(() => {
+        setIsLoggedIn(true);
+        closeModal();
+      })
+      .catch(console.error);
   };
 
   const handleLoginClick = () => {
@@ -149,12 +170,14 @@ function App() {
             <Route
               path="/profile"
               element={
-                <Profile
-                  clothingItems={clothingItems}
-                  weatherData={weatherData}
-                  handleCardClick={handleCardClick}
-                  handleAddClick={handleAddClick}
-                />
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    clothingItems={clothingItems}
+                    weatherData={weatherData}
+                    handleCardClick={handleCardClick}
+                    handleAddClick={handleAddClick}
+                  />
+                </ProtectedRoute>
               }
             />
           </Routes>

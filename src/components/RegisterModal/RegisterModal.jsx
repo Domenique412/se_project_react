@@ -3,8 +3,20 @@ import { useForm } from "../../hooks/useForm";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 const RegisterModal = ({ isOpen, onClose, onRegister }) => {
-  const defaultValues = { email: "", password: "", confirmPassword: "" };
+  const defaultValues = {
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+    avatar: "",
+  };
   const { values, handleChange, setValues } = useForm(defaultValues);
+
+  useEffect(() => {
+    if (isOpen) {
+      setValues(defaultValues);
+    }
+  }, [isOpen]);
 
   const isFormValid = () => {
     const emailOk = values.email.trim().length > 0;
