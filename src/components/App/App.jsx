@@ -106,9 +106,12 @@ function App() {
 
   const handleLogin = (credentials) => {
     signin(credentials)
-      .then(() => {
-        setIsLoggedIn(true);
-        closeModal();
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setIsLoggedIn(true);
+          closeModal();
+        }
       })
       .catch(console.error);
   };
