@@ -1,7 +1,5 @@
-import { Routes, Route } from "react-router-dom";
-
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -13,6 +11,7 @@ import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, apiKey } from "../../utils/constants";
 import { getItems, addItem, removeItem } from "../../utils/api";
@@ -31,6 +30,9 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const navigate = useNavigate();
 
   const closeModal = () => {
     setActiveModal("");
@@ -112,7 +114,9 @@ function App() {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
           setIsLoggedIn(true);
+          setCurrentUser(data);
           closeModal();
+          navigate("/profile");
         }
       })
       .catch(console.error);
@@ -127,7 +131,9 @@ function App() {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
           setIsLoggedIn(true);
+          setCurrentUser(data);
           closeModal();
+          navigate("/profile");
         }
       })
       .catch(console.error);
@@ -143,6 +149,8 @@ function App() {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setCurrentUser(null);
+    localStorage.removeItem("jwt");
     closeModal();
   };
 
@@ -170,6 +178,7 @@ function App() {
     checkToken(token)
       .then((user) => {
         setIsLoggedIn(true);
+        setCurrentUser(user);
       })
       .catch((err) => {
         console.error("Token validation failed:", err);
@@ -178,73 +187,75 @@ function App() {
   }, []);
 
   return (
-    <CurrentTemperatureUnitContext.Provider
-      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-    >
-      <div className="page">
-        <div className="page__content">
-          <Header
-            handleAddClick={handleAddClick}
-            weatherData={weatherData}
-            onLoginClick={handleLoginClick}
-            onRegisterClick={handleRegisterClick}
-            onLogout={handleLogout}
-            isLoggedIn={isLoggedIn}
-          />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Main
-                  weatherData={weatherData}
-                  handleCardClick={handleCardClick}
-                  clothingItems={clothingItems}
-                />
-              }
+    <CurrentUserContext.Provider value={currentUser}>
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+      >
+        <div className="page">
+          <div className="page__content">
+            <Header
+              handleAddClick={handleAddClick}
+              weatherData={weatherData}
+              onLoginClick={handleLoginClick}
+              onRegisterClick={handleRegisterClick}
+              onLogout={handleLogout}
+              isLoggedIn={isLoggedIn}
             />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute isLoggedIn={isLoggedIn}>
-                  <Profile
-                    clothingItems={clothingItems}
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Main
                     weatherData={weatherData}
                     handleCardClick={handleCardClick}
-                    handleAddClick={handleAddClick}
+                    clothingItems={clothingItems}
                   />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Profile
+                      clothingItems={clothingItems}
+                      weatherData={weatherData}
+                      handleCardClick={handleCardClick}
+                      handleAddClick={handleAddClick}
+                    />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </div>
+          <AddItemModal
+            activeModal={activeModal}
+            onClose={closeModal}
+            isOpen={activeModal === "add-garment"}
+            onAddItem={onAddItem}
+          />
+
+          <ItemModal
+            activeModal={activeModal}
+            card={selectedCard}
+            onClose={closeModal}
+            handleCardDelete={handleCardDelete}
+            isLoggedIn={isLoggedIn}
+          />
+          <LoginModal
+            isOpen={activeModal === "login"}
+            onClose={closeModal}
+            onLogin={handleLogin}
+          />
+          <RegisterModal
+            isOpen={activeModal === "register"}
+            onClose={closeModal}
+            onRegister={handleRegister}
+          />
+
+          <Footer />
         </div>
-        <AddItemModal
-          activeModal={activeModal}
-          onClose={closeModal}
-          isOpen={activeModal === "add-garment"}
-          onAddItem={onAddItem}
-        />
-
-        <ItemModal
-          activeModal={activeModal}
-          card={selectedCard}
-          onClose={closeModal}
-          handleCardDelete={handleCardDelete}
-          isLoggedIn={isLoggedIn}
-        />
-        <LoginModal
-          isOpen={activeModal === "login"}
-          onClose={closeModal}
-          onLogin={handleLogin}
-        />
-        <RegisterModal
-          isOpen={activeModal === "register"}
-          onClose={closeModal}
-          onRegister={handleRegister}
-        />
-
-        <Footer />
-      </div>
-    </CurrentTemperatureUnitContext.Provider>
+      </CurrentTemperatureUnitContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

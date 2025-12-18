@@ -1,5 +1,7 @@
 import "./Header.css";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 import headerLogo from "../../images/wtwr_header_logo.svg";
 import headerAvatar from "../../images/avatar_logo.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
@@ -16,6 +18,13 @@ function Header({
     month: "long",
     day: "numeric",
   });
+
+  const getInitials = (name) => {
+    if (!name) return "";
+    return name.charAt(0).toUpperCase();
+  };
+
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <header className="header">
@@ -39,12 +48,18 @@ function Header({
           <>
             <NavLink className="header__nav-link" to="/profile">
               <div className="header__user-container">
-                <p className="header__username">Terrence Tegegne</p>
-                <img
-                  className="header__user-avatar"
-                  src={headerAvatar}
-                  alt="Terrence Tegegne"
-                />
+                <p className="header__username">{currentUser?.name}</p>
+                {currentUser?.avatar ? (
+                  <img
+                    className="header__user-avatar"
+                    src={currentUser.avatar}
+                    alt={currentUser.name}
+                  />
+                ) : (
+                  <div className="header__user-avatar header__user-avatar_placeholdeer">
+                    {getInitials(currentUser?.name)}
+                  </div>
+                )}
               </div>
             </NavLink>
             <button
