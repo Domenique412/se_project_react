@@ -3,6 +3,11 @@ const headers = {
     "Content-Type": "application/json",
 };
 
+const getAuthHeaders = (token) => ({
+    "Content-Type": "application/json",
+    authorization: `Bearer ${token}`,
+});
+
 const handleServerResponse = (res) => {
     return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 }
@@ -12,20 +17,18 @@ export const getItems = () => {
         .then(handleServerResponse);
 };
 
-export const addItem = ({ name, link, weather }) => {
+export const addItem = ({ name, link, weather }, token) => {
     return fetch(`${baseUrl}/items`, {
         method: "POST",
-        headers,
+        headers: getAuthHeaders(token),
         body: JSON.stringify({ name, link, weather }),
-    },
-
-    ).then(handleServerResponse);
+    }).then(handleServerResponse);
 
 }
 
-export const removeItem = (itemID) => {
+export const removeItem = (itemID, token) => {
     return fetch(`${baseUrl}/items/${itemID}`, {
         method: "DELETE",
-        headers,
+        headers: getAuthHeaders(token),
     }).then(handleServerResponse);
 }

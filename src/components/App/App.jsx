@@ -16,7 +16,7 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnit
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, apiKey } from "../../utils/constants";
 import { getItems, addItem, removeItem } from "../../utils/api";
-import { signin, signup } from "../../utils/auth";
+import { signin, signup, checkToken } from "../../utils/auth";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -71,6 +71,7 @@ function App() {
 
   const onAddItem = (inputValues) => {
     if (!requireAuth()) return;
+    const token = localStorage.getItem("jwt");
     const newCardData = {
       _id: Date.now(),
       name: inputValues.name,
@@ -78,7 +79,7 @@ function App() {
       weather: inputValues.weatherType,
     };
 
-    addItem(newCardData)
+    addItem(newCardData, token)
       .then((data) => {
         setClothingItems([data, ...clothingItems]);
         closeModal();
@@ -93,8 +94,9 @@ function App() {
 
   const handleCardDelete = () => {
     if (!requireAuth()) return;
+    const token = localStorage.getItem("jwt");
 
-    removeItem(selectedCard._id)
+    removeItem(selectedCard._id, token)
       .then(() => {
         setClothingItems(
           clothingItems.filter((item) => item._id !== selectedCard._id)
@@ -119,8 +121,14 @@ function App() {
   const handleRegister = (userData) => {
     signup(userData)
       .then(() => {
-        setIsLoggedIn(true);
-        closeModal();
+        return signin({ email: userData.email, password: userData.password });
+      })
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setIsLoggedIn(true);
+          closeModal();
+        }
       })
       .catch(console.error);
   };
@@ -150,6 +158,23 @@ function App() {
         setClothingItems(data);
       })
       .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+
+    if (!token) {
+      return;
+    }
+
+    checkToken(token)
+      .then((user) => {
+        setIsLoggedIn(true);
+      })
+      .catch((err) => {
+        console.error("Token validation failed:", err);
+        localStorage.removeItem("jwt");
+      });
   }, []);
 
   return (
