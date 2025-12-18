@@ -8,6 +8,7 @@ function ClothesSection({
   weatherData,
   handleCardClick,
   handleAddClick,
+  onCardLike,
 }) {
   const currentUser = useContext(CurrentUserContext);
   return (
@@ -36,6 +37,7 @@ function ClothesSection({
                 key={item._id}
                 item={item}
                 onCardClick={handleCardClick}
+                onCardLike={onCardLike}
               />
             );
           })}

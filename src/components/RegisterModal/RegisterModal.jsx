@@ -26,15 +26,6 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
     const passwordOk = values.password.trim().length >= 6;
     const confirmOk = values.confirmPassword === values.password;
 
-    console.log("Validation check:", {
-      nameOk,
-      avatarOk,
-      emailOk,
-      passwordOk,
-      confirmOk,
-      values,
-    });
-
     return nameOk && avatarOk && emailOk && passwordOk && confirmOk;
   };
 

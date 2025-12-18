@@ -7,15 +7,18 @@ function Profile({
   weatherData,
   handleCardClick,
   handleAddClick,
+  onEditProfile,
+  onCardLike,
 }) {
   return (
     <section className="profile">
-      <SideBar />
+      <SideBar onEditProfile={onEditProfile} />
       <ClothesSection
         clothingItems={clothingItems}
         weatherData={weatherData}
         handleCardClick={handleCardClick}
         handleAddClick={handleAddClick}
+        onCardLike={onCardLike}
       />
     </section>
   );

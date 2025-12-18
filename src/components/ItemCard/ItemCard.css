@@ -31,3 +31,24 @@
   border-radius: 4px;
   align-items: center;
 }
+
+.card__like-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+  background: transparent url("../../images/heart.svg") center no-repeat;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.card__like-btn:hover {
+  opacity: 0.6;
+}
+
+.card__like-btn_active {
+  background-image: url("../../images/heart-active.svg");
+}

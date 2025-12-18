@@ -10,11 +10,19 @@ import Profile from "../Profile/Profile";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import { coordinates, apiKey } from "../../utils/constants";
-import { getItems, addItem, removeItem } from "../../utils/api";
+import {
+  getItems,
+  addItem,
+  removeItem,
+  updateUserProfile,
+  addCardLike,
+  removeCardLike,
+} from "../../utils/api";
 import { signin, signup, checkToken } from "../../utils/auth";
 
 function App() {
@@ -30,12 +38,14 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
   const navigate = useNavigate();
 
   const closeModal = () => {
     setActiveModal("");
+    setIsEditProfileOpen(false);
   };
 
   useEffect(() => {
@@ -77,7 +87,7 @@ function App() {
     const newCardData = {
       _id: Date.now(),
       name: inputValues.name,
-      link: inputValues.imageURL,
+      imageUrl: inputValues.imageURL,
       weather: inputValues.weatherType,
     };
 
@@ -116,7 +126,6 @@ function App() {
           setIsLoggedIn(true);
           setCurrentUser(data);
           closeModal();
-          navigate("/profile");
         }
       })
       .catch(console.error);
@@ -133,7 +142,6 @@ function App() {
           setIsLoggedIn(true);
           setCurrentUser(data);
           closeModal();
-          navigate("/profile");
         }
       })
       .catch(console.error);
@@ -152,6 +160,40 @@ function App() {
     setCurrentUser(null);
     localStorage.removeItem("jwt");
     closeModal();
+  };
+
+  const handleEditProfileClick = () => {
+    if (!requireAuth()) return;
+    setIsEditProfileOpen(true);
+  };
+
+  const handleUpdateUser = (data) => {
+    const token = localStorage.getItem("jwt");
+    updateUserProfile(data, token)
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+        closeModal();
+      })
+      .catch(console.error);
+  };
+
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    !isLiked
+      ? addCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err))
+      : removeCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -186,6 +228,16 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    if (
+      currentUser &&
+      activeModal === "" &&
+      window.location.pathname !== "/profile"
+    ) {
+      navigate("/profile");
+    }
+  }, [currentUser, activeModal, navigate]);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentTemperatureUnitContext.Provider
@@ -209,6 +261,7 @@ function App() {
                     weatherData={weatherData}
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
+                    onCardLike={handleCardLike}
                   />
                 }
               />
@@ -221,6 +274,8 @@ function App() {
                       weatherData={weatherData}
                       handleCardClick={handleCardClick}
                       handleAddClick={handleAddClick}
+                      onEditProfile={handleEditProfileClick}
+                      onCardLike={handleCardLike}
                     />
                   </ProtectedRoute>
                 }
@@ -250,6 +305,11 @@ function App() {
             isOpen={activeModal === "register"}
             onClose={closeModal}
             onRegister={handleRegister}
+          />
+          <EditProfileModal
+            isOpen={isEditProfileOpen}
+            onClose={closeModal}
+            onUpdateUser={handleUpdateUser}
           />
 
           <Footer />
