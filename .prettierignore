@@ -1,5 +1,5 @@
 # Dependencies
-node_modules/
+src/vendor/normalize.css/
 .pnp
 .pnp.js
 

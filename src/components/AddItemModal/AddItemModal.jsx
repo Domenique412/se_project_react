@@ -35,12 +35,12 @@ const AddItemModal = ({ isOpen, onClose, onAddItem }) => {
       isDisabled={!isFormValid()}
       onSubmit={handleSubmit}
     >
-      <label htmlFor="name" className="modal__label">
+      <label htmlFor="add-name" className="modal__label">
         Name{" "}
         <input
           type="text"
           className="modal__input"
-          id="name"
+          id="add-ame"
           name="name"
           placeholder="Name"
           value={values.name}

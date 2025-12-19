@@ -1,5 +1,6 @@
 import { useEffect, useContext } from "react";
 import { useForm } from "../../hooks/useForm";
+import "./EditProfileModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
@@ -42,6 +43,7 @@ const EditProfileModal = ({ isOpen, onClose, onUpdateUser }) => {
       isOpen={isOpen}
       isDisabled={!isFormValid()}
       onSubmit={handleSubmit}
+      contentClassName="edit-modal"
     >
       <label htmlFor="name" className="modal__label">
         Name *

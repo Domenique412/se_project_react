@@ -48,6 +48,7 @@ const RegisterModal = ({ isOpen, onClose, onRegister, onSwitchToLogin }) => {
       isOpen={isOpen}
       isDisabled={!isFormValid()}
       onSubmit={handleSubmit}
+      contentClassName="register-modal"
       footer={
         <button
           type="button"

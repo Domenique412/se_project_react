@@ -55,7 +55,7 @@ function Header({
                     alt={currentUser.name}
                   />
                 ) : (
-                  <div className="header__user-avatar header__user-avatar_placeholdeer">
+                  <div className="header__user-avatar header__user-avatar_placeholder">
                     {getInitials(currentUser?.name)}
                   </div>
                 )}

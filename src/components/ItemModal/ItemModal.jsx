@@ -32,7 +32,7 @@ function ItemModal({
             {isLoggedIn && (
               <button
                 onClick={handleCardDelete}
-                type="submit"
+                type="button"
                 className={itemDeleteButtonClassName}
               >
                 Delete Item

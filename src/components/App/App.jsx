@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
-import AddItemModal from "../AddItemModal/AddItemModel";
+import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Footer from "../Footer/Footer";
 import Profile from "../Profile/Profile";
@@ -240,7 +240,7 @@ function App() {
       activeModal === "" &&
       window.location.pathname !== "/profile"
     ) {
-      navigate("/profile");
+      navigate("/");
     }
   }, [currentUser, activeModal, navigate]);
 
