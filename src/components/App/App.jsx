@@ -11,6 +11,7 @@ import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
+import DeleteConfirmModal from "../DeleteConfirmModal/DeleteConfirmModal";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
@@ -93,6 +94,7 @@ function App() {
 
     addItem(newCardData, token)
       .then((data) => {
+        console.log("Response from server:", data);
         setClothingItems([data, ...clothingItems]);
         closeModal();
       })
@@ -105,6 +107,10 @@ function App() {
   };
 
   const handleCardDelete = () => {
+    setActiveModal("delete-confirm");
+  };
+
+  const handleConfirmDelete = () => {
     if (!requireAuth()) return;
     const token = localStorage.getItem("jwt");
 
@@ -250,7 +256,6 @@ function App() {
               weatherData={weatherData}
               onLoginClick={handleLoginClick}
               onRegisterClick={handleRegisterClick}
-              onLogout={handleLogout}
               isLoggedIn={isLoggedIn}
             />
             <Routes>
@@ -276,6 +281,7 @@ function App() {
                       handleAddClick={handleAddClick}
                       onEditProfile={handleEditProfileClick}
                       onCardLike={handleCardLike}
+                      onLogout={handleLogout}
                     />
                   </ProtectedRoute>
                 }
@@ -300,16 +306,24 @@ function App() {
             isOpen={activeModal === "login"}
             onClose={closeModal}
             onLogin={handleLogin}
+            onSwitchToRegister={handleRegisterClick}
           />
           <RegisterModal
             isOpen={activeModal === "register"}
             onClose={closeModal}
             onRegister={handleRegister}
+            onSwitchToLogin={handleLoginClick}
           />
           <EditProfileModal
             isOpen={isEditProfileOpen}
             onClose={closeModal}
             onUpdateUser={handleUpdateUser}
+          />
+          <DeleteConfirmModal
+            isOpen={activeModal === "delete-confirm"}
+            onClose={closeModal}
+            onConfirm={handleConfirmDelete}
+            itemName={selectedCard.name}
           />
 
           <Footer />

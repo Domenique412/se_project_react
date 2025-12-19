@@ -1,0 +1,52 @@
+.modal__content_type_confirm {
+  max-width: 670px;
+  width: 100%;
+  height: 280px;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+}
+.modal__title {
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0;
+  background-color: #fff;
+  text-align: center;
+}
+
+.delete-confirm-modal .modal__actions {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal__submit_danger {
+  max-width: 160px;
+  width: 100%;
+  border: none;
+  background-color: white;
+  color: #ff4d00;
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+.modal__cancel-action {
+  color: black;
+  background: none;
+  border: none;
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0;
+  margin: 24px;
+}
+
+.modal__submit_danger:hover {
+  opacity: 0.8;
+}

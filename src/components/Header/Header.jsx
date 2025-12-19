@@ -11,7 +11,6 @@ function Header({
   weatherData,
   onLoginClick,
   onRegisterClick,
-  onLogout,
   isLoggedIn,
 }) {
   const currentDate = new Date().toLocaleString("default", {
@@ -36,16 +35,16 @@ function Header({
       </p>
       <div className="header__controls">
         <ToggleSwitch />
-        <button
-          onClick={handleAddClick}
-          type="button"
-          className="header__add-clothes-btn"
-        >
-          + Add Clothes
-        </button>
 
         {isLoggedIn ? (
           <>
+            <button
+              onClick={handleAddClick}
+              type="button"
+              className="header__add-clothes-btn"
+            >
+              + Add Clothes
+            </button>
             <NavLink className="header__nav-link" to="/profile">
               <div className="header__user-container">
                 <p className="header__username">{currentUser?.name}</p>
@@ -62,29 +61,22 @@ function Header({
                 )}
               </div>
             </NavLink>
-            <button
-              type="button"
-              className="header__auth-btn"
-              onClick={onLogout}
-            >
-              Log out
-            </button>
           </>
         ) : (
           <>
             <button
               type="button"
               className="header__auth-btn"
-              onClick={onLoginClick}
+              onClick={onRegisterClick}
             >
-              Log in
+              Sign up
             </button>
             <button
               type="button"
               className="header__auth-btn"
-              onClick={onRegisterClick}
+              onClick={onLoginClick}
             >
-              Sign up
+              Log in
             </button>
           </>
         )}

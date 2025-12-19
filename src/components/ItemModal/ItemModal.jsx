@@ -2,7 +2,7 @@ import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 import "./ItemModal.css";
-import closeModalIcon from "../../images/white_close_btn.svg";
+import closeModalIcon from "../../images/gray_close_btn.svg";
 
 function ItemModal({
   activeModal,
@@ -21,7 +21,11 @@ function ItemModal({
         <button onClick={onClose} className="modal__close" type="button">
           <img src={closeModalIcon} alt="Close" className="modal__close-icon" />
         </button>
-        <img src={card.link} alt={card.name} className="modal__preview-image" />
+        <img
+          src={card.imageUrl}
+          alt={card.name}
+          className="modal__preview-image"
+        />
         <div className="modal__footer">
           <div className="modal__footer-top">
             <h2 className="modal__caption">{card.name}</h2>

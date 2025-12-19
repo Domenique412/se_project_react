@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
+import "./LoginModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-const LoginModal = ({ isOpen, onClose, onLogin }) => {
+const LoginModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
   const defaultValues = { email: "", password: "" };
   const { values, handleChange, setValues } = useForm(defaultValues);
 
@@ -28,8 +29,18 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
       isOpen={isOpen}
       isDisabled={!isFormValid()}
       onSubmit={handleSubmit}
+      contentClassName="login-modal"
+      footer={
+        <button
+          type="button"
+          className="modal__switch"
+          onClick={onSwitchToRegister}
+        >
+          or Sign Up
+        </button>
+      }
     >
-      <label htmlFor="email" className="modal_label">
+      <label htmlFor="email" className="modal__label">
         Email{""}
         <input
           type="email"

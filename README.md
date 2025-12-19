@@ -12,6 +12,10 @@ The purpose of this project was to create an app that incorporated APIs and used
 -React
 -Vite
 
+## Express Back-end
+
+![Express.js](https://github.com/Domenique412/se_project_express.git)
+
 ## Screenshots
 
 ![Header Screenshot](src/images/ReadmeScreenShots/HeaderScreenshot.png)

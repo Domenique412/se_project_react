@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
+import "./RegisterModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-const RegisterModal = ({ isOpen, onClose, onRegister }) => {
+const RegisterModal = ({ isOpen, onClose, onRegister, onSwitchToLogin }) => {
   const defaultValues = {
     email: "",
     password: "",
@@ -47,9 +48,18 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
       isOpen={isOpen}
       isDisabled={!isFormValid()}
       onSubmit={handleSubmit}
+      footer={
+        <button
+          type="button"
+          className="modal__switch"
+          onClick={onSwitchToLogin}
+        >
+          or Log In
+        </button>
+      }
     >
       <label htmlFor="name" className="modal__label">
-        Name
+        Name*
         <input
           type="text"
           className="modal__input"
@@ -64,7 +74,7 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
         />
       </label>
       <label htmlFor="avatar" className="modal__label">
-        Avatar URL
+        Avatar URL*
         <input
           type="url"
           className="modal__input"
@@ -77,7 +87,7 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
         />
       </label>
       <label htmlFor="email" className="modal__label">
-        Email{" "}
+        Email*{" "}
         <input
           type="email"
           className="modal__input"
@@ -90,7 +100,7 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
         />
       </label>
       <label htmlFor="password" className="modal__label">
-        Password{" "}
+        Password*{" "}
         <input
           type="password"
           className="modal__input"
@@ -103,7 +113,7 @@ const RegisterModal = ({ isOpen, onClose, onRegister }) => {
         />
       </label>
       <label htmlFor="confirmPassword" className="modal__label">
-        Confirm password{" "}
+        Confirm password*{" "}
         <input
           type="password"
           className="modal__input"

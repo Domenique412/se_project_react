@@ -13,10 +13,8 @@ function ItemCard({ item, onCardClick, onCardLike }) {
     onCardLike({ id: item._id, isLiked });
   };
 
-  // Check if the item was liked by the current user
   const isLiked = item.likes?.some((id) => id === currentUser?._id);
 
-  // Create className for like button
   const itemLikeButtonClassName = `card__like-btn ${
     isLiked ? "card__like-btn_active" : ""
   }`;
@@ -27,7 +25,7 @@ function ItemCard({ item, onCardClick, onCardLike }) {
       <img
         onClick={handleCardClick}
         className="card__image"
-        src={item.link}
+        src={item.imageUrl}
         alt={item.name}
       />
       {currentUser && (

@@ -3,7 +3,7 @@ import "./SideBar.css";
 import sidebarAvatar from "../../images/avatar_logo.svg";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function SideBar({ onEditProfile }) {
+function SideBar({ onEditProfile, onLogout }) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -15,14 +15,18 @@ function SideBar({ onEditProfile }) {
           alt={currentUser?.name || "User"}
         />{" "}
         <p className="sidebar__username">{currentUser?.name || "Guest"}</p>
-        <button
-          type="button"
-          className="sidebar__edit-btn"
-          onClick={onEditProfile}
-        >
-          Edit profile
-        </button>
       </div>
+
+      <button
+        type="button"
+        className="sidebar__edit-btn"
+        onClick={onEditProfile}
+      >
+        Change profile data
+      </button>
+      <button type="button" className="sidebar__auth-btn" onClick={onLogout}>
+        Log out
+      </button>
     </aside>
   );
 }

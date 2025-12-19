@@ -9,16 +9,18 @@ function Profile({
   handleAddClick,
   onEditProfile,
   onCardLike,
+  onLogout,
 }) {
   return (
     <section className="profile">
-      <SideBar onEditProfile={onEditProfile} />
+      <SideBar onEditProfile={onEditProfile} onLogout={onLogout} />
       <ClothesSection
         clothingItems={clothingItems}
         weatherData={weatherData}
         handleCardClick={handleCardClick}
         handleAddClick={handleAddClick}
         onCardLike={onCardLike}
+        onLogout={onLogout}
       />
     </section>
   );
