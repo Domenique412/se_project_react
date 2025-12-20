@@ -1,21 +1,16 @@
 import { useEffect } from "react";
-import { useForm } from "../../hooks/useForm";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import "./LoginModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 const LoginModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
-  const defaultValues = { email: "", password: "" };
-  const { values, handleChange, setValues } = useForm(defaultValues);
+  const { values, handleChange, isValid, resetForm } = useFormAndValidation();
 
   useEffect(() => {
     if (isOpen) {
-      setValues(defaultValues);
+      resetForm();
     }
-  }, [isOpen]);
-
-  const isFormValid = () => {
-    return values.email.trim().length > 4 && values.password.trim().length >= 6;
-  };
+  }, [isOpen, resetForm]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -27,7 +22,7 @@ const LoginModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
       buttonText="Log in"
       onClose={onClose}
       isOpen={isOpen}
-      isDisabled={!isFormValid()}
+      isDisabled={!isValid}
       onSubmit={handleSubmit}
       contentClassName="login-modal"
       footer={
@@ -40,28 +35,28 @@ const LoginModal = ({ isOpen, onClose, onLogin, onSwitchToRegister }) => {
         </button>
       }
     >
-      <label htmlFor="email" className="modal__label">
+      <label className="modal__label">
         Email{""}
         <input
           type="email"
           className="modal__input"
-          id="email"
+          id="login-email"
           name="email"
           placeholder="Email"
-          value={values.email}
+          value={values.email || ""}
           onChange={handleChange}
           required
         />
       </label>
-      <label htmlFor="password" className="modal__label">
+      <label className="modal__label">
         Password{""}
         <input
           type="password"
           className="modal__input"
-          id="password"
+          id="login-password"
           name="password"
           placeholder="Password"
-          value={values.password}
+          value={values.password || ""}
           onChange={handleChange}
           required
         />

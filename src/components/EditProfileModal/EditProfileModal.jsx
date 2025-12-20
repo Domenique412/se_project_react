@@ -1,34 +1,26 @@
 import { useEffect, useContext } from "react";
-import { useForm } from "../../hooks/useForm";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import "./EditProfileModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 const EditProfileModal = ({ isOpen, onClose, onUpdateUser }) => {
   const currentUser = useContext(CurrentUserContext);
-
-  const defaultValues = {
-    name: "",
-    avatar: "",
-  };
-
-  const { values, handleChange, setValues } = useForm(defaultValues);
+  const { values, handleChange, isValid, resetForm, setValues, setIsValid } =
+    useFormAndValidation();
 
   useEffect(() => {
     if (isOpen && currentUser) {
-      setValues({
+      const initialValues = {
         name: currentUser.name || "",
         avatar: currentUser.avatar || "",
-      });
+      };
+      setValues(initialValues);
+      setIsValid(Boolean(initialValues.name && initialValues.avatar));
+    } else if (!isOpen) {
+      resetForm();
     }
-  }, [isOpen, currentUser, setValues]);
-
-  const isFormValid = () => {
-    const nameOk =
-      values.name.trim().length >= 2 && values.name.trim().length <= 30;
-    const avatarOk = values.avatar.trim().length > 0;
-    return nameOk && avatarOk;
-  };
+  }, [currentUser, isOpen, resetForm, setIsValid, setValues]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -41,34 +33,34 @@ const EditProfileModal = ({ isOpen, onClose, onUpdateUser }) => {
       buttonText="Save changes"
       onClose={onClose}
       isOpen={isOpen}
-      isDisabled={!isFormValid()}
+      isDisabled={!isValid}
       onSubmit={handleSubmit}
       contentClassName="edit-modal"
     >
-      <label htmlFor="name" className="modal__label">
+      <label className="modal__label">
         Name *
         <input
           type="text"
           className="modal__input"
-          id="name"
+          id="edit-name"
           name="name"
           placeholder="Name"
-          value={values.name}
+          value={values.name || ""}
           onChange={handleChange}
           minLength={2}
           maxLength={30}
           required
         />
       </label>
-      <label htmlFor="avatar" className="modal__label">
+      <label className="modal__label">
         Avatar URL *
         <input
           type="url"
           className="modal__input"
-          id="avatar"
+          id="edit-avatar"
           name="avatar"
           placeholder="Avatar URL"
-          value={values.avatar}
+          value={values.avatar || ""}
           onChange={handleChange}
           required
         />

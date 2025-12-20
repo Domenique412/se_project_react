@@ -129,12 +129,18 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
-          setIsLoggedIn(true);
-          setCurrentUser(data);
-          closeModal();
+          return checkToken(data.token);
         }
       })
-      .catch(console.error);
+      .then((user) => {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+        closeModal();
+      })
+      .catch((err) => {
+        console.error("Login failed:", err);
+        localStorage.removeItem("jwt");
+      });
   };
 
   const handleRegister = (userData) => {
@@ -145,12 +151,18 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
-          setIsLoggedIn(true);
-          setCurrentUser(data);
-          closeModal();
+          return checkToken(data.token);
         }
       })
-      .catch(console.error);
+      .then((user) => {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+        closeModal();
+      })
+      .catch(() => {
+        console.error("Registration failed:", err);
+        localStorage.removeItem("jwt");
+      });
   };
 
   const handleLoginClick = () => {
@@ -238,9 +250,10 @@ function App() {
     if (
       currentUser &&
       activeModal === "" &&
-      window.location.pathname !== "/profile"
+      window.location.pathname !== "/profile" &&
+      window.location.pathname !== "/"
     ) {
-      navigate("/");
+      navigate("/profile");
     }
   }, [currentUser, activeModal, navigate]);
 
